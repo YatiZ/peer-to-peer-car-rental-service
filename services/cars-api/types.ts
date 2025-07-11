@@ -1,20 +1,26 @@
-
-export type Car = {
-    id: string;
-    brand: string;
-    main_img: string;
-    brand_logo: string;
-    description: string;
-    model: string;
-    year: number;
-    transmission: string;
-    color: string;
-    passengers: number;
-    suitcases: number;
-    gas_type: string;
-    price_per_day: number;
-    status: string;
-    image: string[]; // array of image URLs
-  };
+interface Owner {
+    name: string;
+    rating: string; // could also be number if you prefer
+  }
   
-export type Cars = Car[];
+  interface Feature {
+    feature: string;
+  }
+  
+export  interface Car {
+    id: number;
+    name: string;
+    owner: Owner;
+    location: string;
+    distance: string;
+    price: string; // could also be number if you want numeric price
+    image: string;
+    seats: number;
+    transmission: string;
+    fuel: string;
+    rating: string; // could also be number
+    review_count: number;
+    features: Feature[];
+    instant_book: boolean;
+  }
+  

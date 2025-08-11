@@ -1,4 +1,22 @@
-from django.db import models
+
+from django.contrib.auth.models import AbstractUser # type: ignore
+from django.db import models # type: ignore
+
+# accounts
+class CustomUser(AbstractUser):
+    USER_TYPE_CHOICES = [
+        ('owner', 'Owner'),
+        ('renter', 'Renter'),
+    ]
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    location = models.CharField(max_length=255, null=True, blank=True)
+    bio = models.TextField(null=True, blank=True)
+    rating = models.FloatField(default=0)
+    is_verified = models.BooleanField(default=False)
+    joined_date = models.DateField(auto_now_add=True)
+
 
 
 class CarOwner(models.Model):

@@ -12,6 +12,8 @@ interface AuthState {
   initializeAuth: () => void;
 }
 
+
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
@@ -20,7 +22,7 @@ export const useAuthStore = create<AuthState>()(
       setUser: (user) => set({ user }),
       logout: () => {
         localStorage.removeItem("accessToken");
-        set({ user: null });
+        set({ user: null, isLoading: false });
       },
       setLoading: (loading) => set({ isLoading: loading }),
       initializeAuth: () => {

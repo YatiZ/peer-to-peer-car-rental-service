@@ -1,6 +1,35 @@
 from rest_framework import serializers
-from .models import Car, CarOwner, CarFeature
+from .models import Car, CarOwner, CarFeature, CustomUser
 
+
+# accounts serializers
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= CustomUser
+        fields = ['id', 'email', 'username', 'name', 'user_type', 'avatar', 'phone', 'location', 'rating', 'joined_date', 'is_verified']
+        read_only_fields = ['id', 'rating', 'joined_date', 'is_verified']
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=8)
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'username', 'password', 'name', 'user_type', 'phone', 'location', 'avatar']
+    
+    def create(self, validated_data):
+        user= CustomUser.objects.create_user(
+            email=validated_data['email'],
+            username=validated_data['username'],
+            password=validated_data['password'],
+            first_name=validated_data.get('name'),
+            user_type=validated_data['user_type'],
+            phone=validated_data.get('phone'),
+            location=validated_data.get('location'),
+            avatar=validated_data.get('avatar'),
+        )
+        return user
+
+
+# car list serializers
 class CarFeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarFeature

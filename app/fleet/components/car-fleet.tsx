@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { useGetCarList } from "@/services/cars-api/queries";
 import { Car } from "@/services/cars-api/types";
+import Image from "next/image";
 
 export default function CarList() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -87,9 +88,11 @@ export default function CarList() {
               className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer"
             >
               <div className="relative">
-                <img
+                <Image
                   src={car.image}
                   alt={car.name}
+                  width={500}
+                  height={500}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 {car.instant_book && (
@@ -136,9 +139,11 @@ export default function CarList() {
                 </div>
 
                 <div className="flex items-center space-x-2 mb-4">
-                  <img
+                  <Image
+                    width={24}
+                    height={24}
                     src={`https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=50`}
-                    alt={car.owner}
+                    alt={car.owner.name}
                     className="w-6 h-6 rounded-full object-cover"
                   />
                   <span className="text-sm text-muted-foreground">

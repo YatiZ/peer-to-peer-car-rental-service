@@ -1,6 +1,7 @@
 
 from django.contrib.auth.models import AbstractUser # type: ignore
 from django.db import models # type: ignore
+from django.conf import settings
 
 # accounts
 class CustomUser(AbstractUser):
@@ -40,7 +41,7 @@ class Car(models.Model):
     ]
     
     name = models.CharField(max_length=100)
-    owner = models.ForeignKey(CarOwner, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, limit_choices_to={'user_type': 'owner'}, related_name='cars')
     location = models.CharField(max_length=100)
     distance = models.CharField(max_length=20)
     price = models.DecimalField(max_digits=6, decimal_places=2)

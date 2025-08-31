@@ -1,13 +1,11 @@
 from django.contrib import admin
 from .models import Car, CarOwner, CarFeature, CustomUser
 
-class CarFeatureInline(admin.TabularInline):
-    model = CarFeature
-    extra = 1  # Number of empty feature forms to display
 
 # @admin.register(CustomUser)
 # class CustomUserAdmin():
 #     model = CustomUser
+admin.site.register(CustomUser)
     # fieldsets = UserAdmin.fieldsets + (
     #     (None, {'fields': ('user_type', 'avatar', 'phone', 'location', 'bio', 'rating', 'is_verified', 'joined_date')}),
     # )
@@ -16,6 +14,11 @@ class CarFeatureInline(admin.TabularInline):
     # )
     # list_display = ('username', 'email', 'user_type', 'is_staff', 'is_active')
     # list_filter = ('user_type', 'is_staff', 'is_active')
+
+class CarFeatureInline(admin.TabularInline):
+    model = CarFeature
+    extra = 1  # Number of empty feature forms to display
+
 
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):

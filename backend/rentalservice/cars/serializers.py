@@ -9,6 +9,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'username', 'user_type', 'avatar', 'phone', 'location', 'rating', 'joined_date', 'is_verified']
         read_only_fields = ['id', 'rating', 'joined_date', 'is_verified']
 
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+    
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
     class Meta:

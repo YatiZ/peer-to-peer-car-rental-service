@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useLogin, useRegister } from "@/services/auth/mutation"; // <-- update path if needed
+import LoginForm from "./login-form";
 
 export default function AuthForm() {
   // const [loading, setLoading] = useState(false);
@@ -33,10 +34,7 @@ export default function AuthForm() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
+
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
@@ -47,21 +45,9 @@ export default function AuthForm() {
     location: "",
   });
 
-  const { mutate: loginMutation, isLoading: isLogging } = useLogin();
   const { mutate: registerMutation, isLoading: isRegistering } = useRegister();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    loginMutation(loginData, {
-      onSuccess: () => {
-        toast.success("Logged in successfully");
-        router.push("/");
-      },
-      onError: () => {
-        toast.error("Login failed. Please check your credentials.");
-      },
-    });
-  };
+
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,77 +100,8 @@ export default function AuthForm() {
                     </p>
                   </div>
 
-                  <form onSubmit={handleLogin} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="your@email.com"
-                          className="pl-10"
-                          value={loginData.email}
-                          onChange={(e) =>
-                            setLoginData((prev) => ({
-                              ...prev,
-                              email: e.target.value,
-                            }))
-                          }
-                          required
-                        />
-                      </div>
-                    </div>
+                 <LoginForm/>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="password">Password</Label>
-                      <div className="relative">
-                        <Input
-                          id="password"
-                          type={showPassword ? "text" : "password"}
-                          placeholder="Enter your password"
-                          value={loginData.password}
-                          onChange={(e) =>
-                            setLoginData((prev) => ({
-                              ...prev,
-                              password: e.target.value,
-                            }))
-                          }
-                          required
-                        />
-                        <button
-                          type="button"
-                          className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      size="lg"
-                      disabled={isLogging}
-                    >
-                      {isLogging ? "Signing In..." : "Sign In"}
-                    </Button>
-                  </form>
-
-                  <div className="text-center space-y-2">
-                    <p className="text-sm text-muted-foreground">
-                      Demo credentials:
-                    </p>
-                    <div className="text-xs space-y-1 text-muted-foreground">
-                      <p>Owner: owner@test.com / password</p>
-                      <p>Renter: renter@test.com / password</p>
-                    </div>
-                  </div>
                 </TabsContent>
 
                 {/* Register Tab */}

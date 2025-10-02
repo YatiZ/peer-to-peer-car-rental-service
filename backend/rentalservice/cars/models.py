@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
         ('owner', 'Owner'),
         ('renter', 'Renter'),
     ]
+    email = models.EmailField(unique=True, null=True, blank=True)
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     phone = models.CharField(max_length=20, null=True, blank=True)
@@ -18,6 +19,8 @@ class CustomUser(AbstractUser):
     is_verified = models.BooleanField(default=False)
     joined_date = models.DateField(auto_now_add=True)
 
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
 
 class CarOwner(models.Model):

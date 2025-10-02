@@ -3,8 +3,9 @@ from rest_framework.response import Response # type:ignore
 from rest_framework.permissions import AllowAny # type: ignore
 from .models import Car
 from rest_framework_simplejwt.tokens import RefreshToken # type: ignore
-from .serializers import CarSerializer, UserSerializer, RegisterSerializer # type: ignore
+from .serializers import CarSerializer, UserSerializer, RegisterSerializer, LoginSerializer
 from django.contrib.auth import get_user_model # type: ignore
+from django.contrib.auth import authenticate
 
 #accounts views
 User = get_user_model()
@@ -14,14 +15,21 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = RegisterSerializer
 
+class GetUserAcc(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
     permission_classes = [AllowAny]
     def post(self, request):
-        email = request.data.get('email')
-        password = request.data.get('password')
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception =True)
+        email = serializer.validated_data['email']
+        password = serializer.validated_data['password']
 
-        user = User.objects.filter(email=email).first()
-        if user and user.check_password(password):
+        user = authenticate(request, email=email, password=password)
+        if user:
             refresh = RefreshToken.for_user(user) 
             return Response({
                 'refresh': str(refresh),

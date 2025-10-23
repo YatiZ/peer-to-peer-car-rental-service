@@ -30,8 +30,9 @@ export default async function jwt({
     console.log("jwt");
     try {
       const data = await getMe(token.tokens.accessToken);
-      if (data?._data) {
-        const profile = mapProfile(data._data);
+      console.log("jwt data", data)
+      if (data) {
+        const profile = mapProfile(data);
         Object.assign(token, profile);
         token.profile = profile;
       }

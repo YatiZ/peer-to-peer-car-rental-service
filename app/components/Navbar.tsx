@@ -27,10 +27,12 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
+import getClientUser from "@/config/auth/get-client-user";
+import { signOut } from "next-auth/react";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const user = useAuthStore((state) => state.user);
+  const user = getClientUser();
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
 
@@ -44,7 +46,7 @@ export default function Navbar() {
   ];
 
   const handleLogout = () => {
-    logout();
+    signOut();
     router.push("/");
   };
 
@@ -83,7 +85,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
               <>
-                {user.userType === "owner" && (
+                {user.user_type === "owner" && (
                   <Button size="sm" asChild>
                     <Link href="/list-car">
                       <Plus className="h-4 w-4 mr-2" />
@@ -99,9 +101,9 @@ export default function Navbar() {
                       className="relative h-10 w-10 rounded-full"
                     >
                       <Avatar className="h-10 w-10">
-                        <AvatarImage src={user.avatar} alt={user.name} />
+                        <AvatarImage src={user.avatar} alt={user.username} />
                         <AvatarFallback>
-                          {user.name
+                          {user.username
                             .split(" ")
                             .map((n) => n[0])
                             .join("")}
@@ -123,7 +125,7 @@ export default function Navbar() {
                             variant="secondary"
                             className="text-xs px-1 py-0"
                           >
-                            {user.userType}
+                            {user.user_type}
                           </Badge>
                         </div>
                       </div>
@@ -135,7 +137,7 @@ export default function Navbar() {
                         <span>Dashboard</span>
                       </Link>
                     </DropdownMenuItem>
-                    {user.userType === "renter" && (
+                    {user.user_type === "renter" && (
                       <DropdownMenuItem asChild>
                         <Link href="/my-trips" className="w-full">
                           <Car className="mr-2 h-4 w-4" />
@@ -143,7 +145,7 @@ export default function Navbar() {
                         </Link>
                       </DropdownMenuItem>
                     )}
-                    {user.userType === "owner" && (
+                    {user.user_type === "owner" && (
                       <DropdownMenuItem asChild>
                         <Link href="/my-cars" className="w-full">
                           <Car className="mr-2 h-4 w-4" />
@@ -225,22 +227,22 @@ export default function Navbar() {
               <div className="space-y-2 pt-4 px-4 border-t">
                 <div className="flex items-center space-x-3 mb-3">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.avatar} alt={user.name} />
+                    <AvatarImage src={user.avatar} alt={user.username} />
                     <AvatarFallback>
-                      {user.name
+                      {user.username
                         .split(" ")
                         .map((n) => n[0])
                         .join("")}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-medium">{user.name}</p>
+                    <p className="text-sm font-medium">{user.username}</p>
                     <Badge variant="secondary" className="text-xs">
-                      {user.userType}
+                      {user.user_type}
                     </Badge>
                   </div>
                 </div>
-                {user.userType === "owner" && (
+                {user.user_type === "owner" && (
                   <Button size="sm" className="w-full mb-2" asChild>
                     <Link href="/list-car">
                       <Plus className="h-4 w-4 mr-2" />

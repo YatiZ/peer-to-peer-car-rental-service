@@ -1,4 +1,5 @@
 
+
 import { Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 
@@ -9,12 +10,13 @@ export default async function session({
   session: Session;
   token: JWT;
 }) {
-  session.user. = token.idToken;
+  session.idToken = token.idToken;
   session.tokens = token.tokens;
+  console.log("session callback", session)
 
-  if (token._id) {
+  if (token.id) {
     session.user = {
-      name: token.full_name,
+      name: token.username,
       ...session.user,
       ...token,
     };

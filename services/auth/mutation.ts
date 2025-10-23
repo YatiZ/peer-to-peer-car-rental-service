@@ -8,12 +8,12 @@ import { useAuthStore } from "@/store/authStore";
 import api from "../api";
 import { LoginPayload, RegisterPayload } from "./type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
 
 
 const register = async (payload: RegisterPayload) => {
-    const response = await api.post("/api/auth/register", payload);
+    const response = await api.post("/register/", payload);
+    console.log("register data", response.data)
     return response.data;
   };
   

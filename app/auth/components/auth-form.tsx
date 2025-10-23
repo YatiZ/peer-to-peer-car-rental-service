@@ -26,6 +26,8 @@ import {
 import toast from "react-hot-toast";
 import { useLogin, useRegister } from "@/services/auth/mutation"; 
 import LoginForm from "./login-form";
+import { RegisterData } from "@/services/auth/type";
+// Removed: import { register } from "module";
 
 export default function AuthForm() {
   // const [loading, setLoading] = useState(false);
@@ -39,14 +41,14 @@ export default function AuthForm() {
     email: "",
     password: "",
     confirmPassword: "",
-    name: "",
-    userType: "renter" as "owner" | "renter",
+    username: "",
+    user_type: "renter" as "owner" | "renter",
     phone: "",
     location: "",
   });
 
-  const { mutate: registerMutation, isLoading: isRegistering } = useRegister();
-
+  // useRegister is a hook, so this is correct:
+  const register = useRegister();
 
 
   const handleRegister = (e: React.FormEvent) => {
@@ -56,7 +58,9 @@ export default function AuthForm() {
       return;
     }
 
-    registerMutation(registerData, {
+    console.log("registerData", registerData)
+
+    register.mutate(registerData, {
       onSuccess: () => {
         toast.success("Account created!");
         router.push("/");
@@ -68,7 +72,7 @@ export default function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 pt-24">
+    <div className=" bg-gradient-to-br from-primary/5 via-background to-accent/5 overflow-y-hidden">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-md mx-auto">
           <div className="text-center space-y-4 mb-8">
@@ -117,11 +121,11 @@ export default function AuthForm() {
                     <div className="space-y-2">
                       <Label htmlFor="user-type">I want to</Label>
                       <Select
-                        value={registerData.userType}
+                        value={registerData.user_type}
                         onValueChange={(value: "owner" | "renter") =>
                           setRegisterData((prev) => ({
                             ...prev,
-                            userType: value,
+                            user_type: value,
                           }))
                         }
                       >
@@ -153,11 +157,11 @@ export default function AuthForm() {
                           id="name"
                           placeholder="Your full name"
                           className="pl-10"
-                          value={registerData.name}
+                          value={registerData.username}
                           onChange={(e) =>
                             setRegisterData((prev) => ({
                               ...prev,
-                              name: e.target.value,
+                              username: e.target.value,
                             }))
                           }
                           required
@@ -264,9 +268,9 @@ export default function AuthForm() {
                       type="submit"
                       className="w-full cursor-pointer"
                       size="lg"
-                      disabled={isRegistering}
+                      // loading={register}
                     >
-                      {isRegistering ? "Creating Account..." : "Create Account"}
+                      Create Account
                     </Button>
                   </form>
                 </TabsContent>

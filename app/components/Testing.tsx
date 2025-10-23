@@ -7,7 +7,7 @@ const Testing = () => {
    const { data: session, status } = useSession();
     // const extractTest = test.length
     // console.log(extractTest)
-    console.log("session data", session?.user?.name)
+    console.log("session data", session)
 
     if (status === "loading") return <p>Loading...</p>;
   if (!session)
@@ -15,7 +15,7 @@ const Testing = () => {
   return (
      <div>
       <p>Logged in as {session.user?.email}</p>
-      <p>Name: {session.user?.name}</p>
+      <p>Name: {session.user?.username}</p>
       <button onClick={() => signOut()}>Logout</button>
     </div>
   )

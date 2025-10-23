@@ -7,8 +7,9 @@
 import { useAuthStore } from "@/store/authStore";
 import api from "../api";
 import { LoginPayload, RegisterPayload } from "./type";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 
 const register = async (payload: RegisterPayload) => {
@@ -29,7 +30,8 @@ const register = async (payload: RegisterPayload) => {
   };
 
 export const login = async (payload: LoginPayload) => {
-    const response = await api.post("auth/login", payload);
+    const response = await api.post("/login/", payload);
+    console.log("login data", response.data)
     return response.data;
   };
   
@@ -37,9 +39,34 @@ export const login = async (payload: LoginPayload) => {
     const { setUser } = useAuthStore();
     return useMutation({
       mutationFn: (payload: LoginPayload) => login(payload),
-      onSuccess: (data) => {
-        toast.success(data._metadata.message);
-        setUser(data._data);
+      onSuccess: async(data) => {
+        // toast.success(data._metadata.message);
+        // setUser(data._data);
+        await signIn("credentials",{
+          accessToken: data.access,
+          refreshToken: data.refresh,
+          redirect: false,
+        })
+        console.log("signIn called", data)
       },
     });
   };
+
+//logout
+const logout = async(refreshToken: string)=> {
+  return api.post('/logout/',{refresh:refreshToken},{headers: {'Content-Type': 'application/json' }}) 
+}
+
+export const useLogout=()=>{
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: ()=>{
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+
+      queryClient.clear();
+    }
+  })
+}

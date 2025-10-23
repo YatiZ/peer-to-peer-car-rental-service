@@ -34,6 +34,8 @@ export default function Navbar() {
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
 
+  console.log("user", user)
+
   const navItems = [
     { name: "Explore Cars", href: "/fleet" },
     { name: "How It Works", href: "/how-it-works" },

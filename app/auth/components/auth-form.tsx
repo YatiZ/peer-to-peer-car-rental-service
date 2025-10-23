@@ -24,7 +24,7 @@ import {
   User,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import { useLogin, useRegister } from "@/services/auth/mutation"; // <-- update path if needed
+import { useLogin, useRegister } from "@/services/auth/mutation"; 
 import LoginForm from "./login-form";
 
 export default function AuthForm() {
@@ -262,7 +262,7 @@ export default function AuthForm() {
 
                     <Button
                       type="submit"
-                      className="w-full"
+                      className="w-full cursor-pointer"
                       size="lg"
                       disabled={isRegistering}
                     >

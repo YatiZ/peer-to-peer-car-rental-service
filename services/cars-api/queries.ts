@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import api, { authJsonHeader } from "../api"
 
 export const getCarList = async()=>{
-    const response = await api.get('/api/cars',{
+    const response = await api.get('/cars',{
         headers: await authJsonHeader(),
     });
     console.log("Car List Response:", response.data);

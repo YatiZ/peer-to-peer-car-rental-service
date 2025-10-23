@@ -1,16 +1,23 @@
 "use client"
+
 import React, { useState } from 'react'
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const Testing = () => {
-    const [test, setTest] = useState(['b','c','f']);
-    const [take, setTake] = useState(0);
-    const output = setTake(test.length)
-    console.log(output)
+   const { data: session, status } = useSession();
     // const extractTest = test.length
     // console.log(extractTest)
+    console.log("session data", session?.user?.name)
 
+    if (status === "loading") return <p>Loading...</p>;
+  if (!session)
+    return <button onClick={() => signIn()}>Login</button>;
   return (
-    <div>Testing</div>
+     <div>
+      <p>Logged in as {session.user?.email}</p>
+      <p>Name: {session.user?.name}</p>
+      <button onClick={() => signOut()}>Logout</button>
+    </div>
   )
 }
 

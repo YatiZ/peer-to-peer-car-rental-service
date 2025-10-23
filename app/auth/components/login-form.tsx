@@ -14,19 +14,24 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
-  const { mutate: loginMutation } = useLogin();
+  const { mutate: loginMutation, isPending: isLogging } = useLogin();
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation(loginData, {
-      onSuccess: () => {
-        toast.success("Logged in successfully");
-        router.push("/");
-      },
-      onError: () => {
-        toast.error("Login failed. Please check your credentials.");
-      },
-    });
+    loginMutation(
+      loginData
+      // onSuccess: () => {
+      //   console.log("login",loginData)
+      //
+
+      // },
+      // onError: () => {
+      //   toast.error("Login failed. Please check your credentials.");
+      // },
+    );
+    toast.success("Logged in successfully");
+    router.push("/");
   };
+
   return (
     <form onSubmit={handleLogin} className="space-y-4">
       <div className="space-y-2">
@@ -80,9 +85,9 @@ const LoginForm = () => {
         </div>
       </div>
 
-      <Button type="submit" className="w-full" size="lg">
-        {/* {isLogging ? "Signing In..." : "Sign In"} */}
-        Sign In
+      <Button type="submit" className="w-full cursor-pointer" size="lg">
+        {isLogging ? "Signing In..." : "Sign In"}
+        {/* Sign In */}
       </Button>
     </form>
   );

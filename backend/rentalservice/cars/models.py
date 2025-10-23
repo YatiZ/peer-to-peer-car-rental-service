@@ -22,7 +22,6 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
-
 class CarOwner(models.Model):
     name = models.CharField(max_length=100)
     rating = models.DecimalField(max_digits=2, decimal_places=1)

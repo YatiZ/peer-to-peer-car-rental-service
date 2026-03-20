@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import { useState } from "react";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,7 +18,7 @@ import {
   Menu,
   X,
   Plus,
-//   Search,
+  //   Search,
   User,
   LogOut,
   Settings,
@@ -36,7 +36,7 @@ export default function Navbar() {
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
 
-  console.log("user", user)
+  console.log("user", user);
 
   const navItems = [
     { name: "Explore Cars", href: "/fleet" },
@@ -104,9 +104,9 @@ export default function Navbar() {
                         <AvatarImage src={user.avatar} alt={user.username} />
                         <AvatarFallback>
                           {user.username
-                            .split(" ")
+                            ?.split(" ")
                             .map((n) => n[0])
-                            .join("")}
+                            .join("") ?? "U"}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
@@ -208,7 +208,7 @@ export default function Navbar() {
         <div
           className={cn(
             "md:hidden overflow-hidden transition-all duration-300",
-            isMobileMenuOpen ? "max-h-96 pb-4" : "max-h-0",
+            isMobileMenuOpen ? "max-h-96 pb-4" : "max-h-0"
           )}
         >
           <div className="space-y-2 pt-4">
@@ -230,9 +230,9 @@ export default function Navbar() {
                     <AvatarImage src={user.avatar} alt={user.username} />
                     <AvatarFallback>
                       {user.username
-                        .split(" ")
+                        ?.split(" ")
                         .map((n) => n[0])
-                        .join("")}
+                        .join("") ?? "U"}
                     </AvatarFallback>
                   </Avatar>
                   <div>

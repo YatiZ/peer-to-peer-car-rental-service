@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-//   Car,
+  //   Car,
   Users,
   Fuel,
   Settings,
@@ -31,8 +31,7 @@ export default function CarList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("price-low");
 
-
-  const {data: carsData=[]} = useGetCarList();
+  const { data: carsData = [] } = useGetCarList();
   console.log("Cars Data:", carsData);
 
   return (
@@ -82,7 +81,7 @@ export default function CarList() {
 
         {/* Car Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {carsData.map((car:Car) => (
+          {carsData.map((car: Car) => (
             <Card
               key={car.id}
               className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer"
@@ -140,10 +139,10 @@ export default function CarList() {
 
                 <div className="flex items-center space-x-2 mb-4">
                   <Image
+                    src={`https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=50`}
+                    alt={car.owner.name || "car owner"}
                     width={24}
                     height={24}
-                    src={`https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=50`}
-                    alt={car.owner.name}
                     className="w-6 h-6 rounded-full object-cover"
                   />
                   <span className="text-sm text-muted-foreground">

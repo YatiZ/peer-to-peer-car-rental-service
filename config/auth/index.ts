@@ -3,7 +3,7 @@ import  CredentialsProvider  from "next-auth/providers/credentials";
 import jwt from "./callbacks/jwt";
 import session from "./callbacks/session";
 
-export default {
+const authOptions:NextAuthOptions = {
    providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -47,4 +47,6 @@ export default {
     strategy: "jwt"
    },
    secret: process.env.NEXTAUTH_SECRET,
-} satisfies NextAuthOptions;
+}
+export default authOptions
+export { authOptions }

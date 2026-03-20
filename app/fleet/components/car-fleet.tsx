@@ -88,7 +88,7 @@ export default function CarList() {
             >
               <div className="relative">
                 <Image
-                  src={car.image}
+                  src={car.preview_image}
                   alt={car.name}
                   width={500}
                   height={500}
@@ -140,13 +140,13 @@ export default function CarList() {
                 <div className="flex items-center space-x-2 mb-4">
                   <Image
                     src={`https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=50`}
-                    alt={car.owner.name || "car owner"}
+                    alt={car.owner.username }
                     width={24}
                     height={24}
                     className="w-6 h-6 rounded-full object-cover"
                   />
                   <span className="text-sm text-muted-foreground">
-                    Hosted by {car.owner.name}
+                    Hosted by {car.owner.username}
                   </span>
                   <div className="flex items-center space-x-1">
                     <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />

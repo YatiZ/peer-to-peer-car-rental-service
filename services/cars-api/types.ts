@@ -1,7 +1,15 @@
 interface Owner {
-    name: string;
-    rating: string; // could also be number if you prefer
-  }
+  id: number;
+  email: string;
+  username: string;
+  user_type: "owner" | "renter" | string; 
+  avatar: string; 
+  phone: string;
+  location: string;
+  rating: number;
+  joined_date: string; 
+  is_verified: boolean;
+}
   
   interface Feature {
     feature: string;
@@ -14,7 +22,7 @@ export  interface Car {
     location: string;
     distance: string;
     price: string; // could also be number if you want numeric price
-    image: string;
+    preview_image: string;
     seats: number;
     transmission: string;
     fuel: string;

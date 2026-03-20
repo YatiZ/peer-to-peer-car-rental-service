@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Car, CarOwner, CarFeature, CustomUser
+from .models import Car, CarOwner, CarFeature, CustomUser, CarImages, PickupLocation
 
 
 # @admin.register(CustomUser)
@@ -19,17 +19,24 @@ class CarFeatureInline(admin.TabularInline):
     model = CarFeature
     extra = 1  # Number of empty feature forms to display
 
+class CarImagesInline(admin.TabularInline):
+    model = CarImages
+    extra= 1
+
+class PickupLocationInline(admin.TabularInline):
+    model = PickupLocation
+    extra = 1
 
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owner', 'location', 'price', 'rating', 'instant_book')
+    list_display = ('name', 'owner', 'location', 'price', 'rating', 'instant_book', 'plate_number')
     list_filter = ('transmission', 'fuel', 'instant_book')
-    search_fields = ('name', 'location', 'owner__name')
-    inlines = [CarFeatureInline]
+    search_fields = ('name', 'location', 'owner__name', 'plate_number')
+    inlines = [CarFeatureInline, CarImagesInline, PickupLocationInline]
     
     fieldsets = (
         ('Basic Information', {
-            'fields': ('name', 'owner', 'location', 'distance', 'price', 'image')
+            'fields': ('name', 'owner', 'location', 'distance', 'price', 'preview_image','plate_number')
         }),
         ('Specifications', {
             'fields': ('seats', 'transmission', 'fuel')
@@ -40,7 +47,14 @@ class CarAdmin(admin.ModelAdmin):
         ('Booking', {
             'fields': ('instant_book',)
         }),
+        ('Coordinates', {
+            'fields': ('latitude','longitude')
+        }),
+        ('Timestamps', {
+            'fields': ('created_at','updated_at')
+        }),
     )
+    readonly_fields = ('created_at','updated_at','rating','review_count')
 
 @admin.register(CarOwner)
 class CarOwnerAdmin(admin.ModelAdmin):

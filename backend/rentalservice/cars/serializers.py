@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Car, CarOwner, CarFeature, CustomUser
+from .models import Car, CarOwner, CarFeature, CustomUser, CarImages
 
 
 # accounts serializers
@@ -44,14 +44,22 @@ class CarOwnerSerializer(serializers.ModelSerializer):
         model = CarOwner
         fields = ['name', 'rating']
 
-class CarSerializer(serializers.ModelSerializer):
+class CarImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= CarImages
+        fields= ['image_url','id']
+
+class CarListSerializer(serializers. ModelSerializer):
+    owner = UserSerializer()
+    class Meta: 
+        model= Car
+        fields = ['id', 'name','preview_image', 'price', 'plate_number', 'rating', 'location', 'owner']
+
+class CarDetailSerializer(serializers.ModelSerializer):
+    images = CarImagesSerializer(many=True, read_only=True)
     owner = UserSerializer()
     features = CarFeatureSerializer(many=True)
     
     class Meta:
         model = Car
-        fields = [
-            'id', 'name', 'owner', 'location', 'distance', 'price', 
-            'image', 'seats', 'transmission', 'fuel', 'rating', 
-            'review_count', 'features', 'instant_book'
-        ]
+        fields = '__all__'

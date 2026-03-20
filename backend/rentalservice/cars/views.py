@@ -3,7 +3,7 @@ from rest_framework.response import Response # type:ignore
 from rest_framework.permissions import AllowAny # type: ignore
 from .models import Car
 from rest_framework_simplejwt.tokens import RefreshToken # type: ignore
-from .serializers import CarSerializer, UserSerializer, RegisterSerializer, LoginSerializer
+from .serializers import CarListSerializer, UserSerializer, RegisterSerializer, LoginSerializer, CarDetailSerializer
 from django.contrib.auth import get_user_model # type: ignore
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
@@ -69,9 +69,9 @@ class GetMeView(APIView):
 
 class CarListAPIView(generics.ListAPIView):
     queryset = Car.objects.all()
-    serializer_class = CarSerializer
+    serializer_class = CarListSerializer
 
 class CarDetailAPIView(generics.RetrieveAPIView):
     queryset = Car.objects.all()
-    serializer_class = CarSerializer
-    lookup_field = 'id'
+    serializer_class = CarDetailSerializer
+    lookup_field = 'plate_number'

@@ -9,5 +9,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('me/',GetMeView.as_view(),name='get-me'),
     path('cars/', CarListAPIView.as_view(), name='car-list'),
-    path('cars/<int:id>/', CarDetailAPIView.as_view(), name='car-detail'),
+    path('cars/<slug:plate_number>/', CarDetailAPIView.as_view(), name='car-detail'),
 ]

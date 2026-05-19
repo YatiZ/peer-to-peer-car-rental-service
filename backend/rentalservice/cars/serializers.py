@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Car, CarOwner, CarFeature, CustomUser, CarImages
+from .models import Car, CarOwner, CarFeature, CustomUser, CarImages, PickupLocation
 
 
 # accounts serializers
@@ -49,11 +49,16 @@ class CarImagesSerializer(serializers.ModelSerializer):
         model= CarImages
         fields= ['image_url','id']
 
+class PickupLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PickupLocation
+        fields = ["address", "latitude", "longitude", "is_default"]
+
 class CarListSerializer(serializers. ModelSerializer):
     owner = UserSerializer()
     class Meta: 
         model= Car
-        fields = ['id', 'name','preview_image', 'price', 'plate_number', 'rating', 'location', 'owner']
+        fields = ['id', 'name','preview_image', 'price', 'plate_number', 'location', 'owner']
 
 class CarDetailSerializer(serializers.ModelSerializer):
     images = CarImagesSerializer(many=True, read_only=True)
@@ -63,3 +68,47 @@ class CarDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
         fields = '__all__'
+
+class CarSerializer(serializers.ModelSerializer):
+    images = CarImagesSerializer(many=True, required=False)
+    features = CarFeatureSerializer(many=True, required=False)
+    pickup = PickupLocationSerializer(many=True, required=False)
+    owner = UserSerializer(read_only=True)
+    class Meta:
+        model = Car
+        fields = [
+            "id",
+            "plate_number",
+            "name",
+            "owner",
+            "location",
+            "latitude",
+            "longitude",
+            "price",
+            "preview_image",
+            "seats",
+            "transmission",
+            "fuel",
+            "instant_book",
+            "images",
+            "features",
+            "pickup",
+        ]
+    
+    def create(self, validated_data):
+        images_data = validated_data.pop('images',[])
+        features_data = validated_data.pop('features',[])
+        pickup_data = validated_data.pop('pickup',[])
+
+        car = Car.objects.create(**validated_data)
+
+        for img in images_data:
+            CarImages.objects.create(car=car, **img)
+
+        for f in features_data:
+            CarFeature.objects.create(car=car, **f)
+        
+        for p in pickup_data:
+            PickupLocation.objects.create(car=car, **p)
+        
+        return car

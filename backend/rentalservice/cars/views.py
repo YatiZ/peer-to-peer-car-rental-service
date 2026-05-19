@@ -1,13 +1,16 @@
-from rest_framework import generics, status # type: ignore
+from rest_framework import generics, status, viewsets # type: ignore
 from rest_framework.response import Response # type:ignore
 from rest_framework.permissions import AllowAny # type: ignore
 from .models import Car
 from rest_framework_simplejwt.tokens import RefreshToken # type: ignore
-from .serializers import CarListSerializer, UserSerializer, RegisterSerializer, LoginSerializer, CarDetailSerializer
+from .serializers import CarListSerializer, UserSerializer, RegisterSerializer, LoginSerializer, CarDetailSerializer, CarSerializer
 from django.contrib.auth import get_user_model # type: ignore
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from django.core.files.storage import default_storage
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser
 
 #accounts views
 User = get_user_model()
@@ -75,3 +78,22 @@ class CarDetailAPIView(generics.RetrieveAPIView):
     queryset = Car.objects.all()
     serializer_class = CarDetailSerializer
     lookup_field = 'plate_number'
+
+class CarViewSet(viewsets.ModelViewSet):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
+    lookup_field = 'plate_number'
+
+# for upload image
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser]) 
+def upload_image(request):
+    file = request.FILES.get('image')
+
+    if (not file):
+        return Response({"error": "No file provided"}, status=400)
+    
+    path = default_storage.save(f'cars/{file.name}', file)
+    url = request.build_absolute_uri(default_storage.url(path))
+
+    return Response({"url": url}, status=201)

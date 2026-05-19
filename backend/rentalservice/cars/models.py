@@ -48,14 +48,11 @@ class Car(models.Model):
     location = models.CharField(max_length=100)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
-    distance = models.CharField(max_length=20)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     preview_image = models.URLField(max_length=500)
     seats = models.PositiveIntegerField()
     transmission = models.CharField(max_length=10, choices=TRANSMISSION_CHOICES)
     fuel = models.CharField(max_length=10, choices=FUEL_CHOICES)
-    rating = models.DecimalField(max_digits=2, decimal_places=1)
-    review_count = models.PositiveIntegerField()
     instant_book = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -63,6 +60,12 @@ class Car(models.Model):
     def __str__(self):
         return self.name
 
+class CarReview(models.Model):
+    car = models.ForeignKey(Car, related_name='reviews', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
+    comment = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class CarImages(models.Model):
     car = models.ForeignKey(Car, related_name="images", on_delete=models.CASCADE)

@@ -7,9 +7,8 @@ export default function Home() {
 
   return (
     <div className="">
-       hi
 
-       <Testing/>
+       {/* <Testing/> */}
     </div>
   );
 }

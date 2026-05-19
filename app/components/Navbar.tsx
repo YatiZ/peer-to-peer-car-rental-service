@@ -87,9 +87,9 @@ export default function Navbar() {
               <>
                 {user.user_type === "owner" && (
                   <Button size="sm" asChild>
-                    <Link href="/list-car">
+                    <Link href="/create-car">
                       <Plus className="h-4 w-4 mr-2" />
-                      List Your Car
+                      Upload Your Car
                     </Link>
                   </Button>
                 )}
@@ -244,7 +244,7 @@ export default function Navbar() {
                 </div>
                 {user.user_type === "owner" && (
                   <Button size="sm" className="w-full mb-2" asChild>
-                    <Link href="/list-car">
+                    <Link href="/create-car">
                       <Plus className="h-4 w-4 mr-2" />
                       List Your Car
                     </Link>

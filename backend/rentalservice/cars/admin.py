@@ -29,7 +29,7 @@ class PickupLocationInline(admin.TabularInline):
 
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owner', 'location', 'price', 'rating', 'instant_book', 'plate_number')
+    list_display = ('name', 'owner', 'location', 'price', 'instant_book', 'plate_number')
     list_filter = ('transmission', 'fuel', 'instant_book')
     search_fields = ('name', 'location', 'owner__name', 'plate_number')
     inlines = [CarFeatureInline, CarImagesInline, PickupLocationInline]
@@ -41,9 +41,6 @@ class CarAdmin(admin.ModelAdmin):
         ('Specifications', {
             'fields': ('seats', 'transmission', 'fuel')
         }),
-        ('Ratings', {
-            'fields': ('rating', 'review_count')
-        }),
         ('Booking', {
             'fields': ('instant_book',)
         }),
@@ -54,11 +51,11 @@ class CarAdmin(admin.ModelAdmin):
             'fields': ('created_at','updated_at')
         }),
     )
-    readonly_fields = ('created_at','updated_at','rating','review_count')
+    readonly_fields = ('created_at','updated_at')
 
 @admin.register(CarOwner)
 class CarOwnerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'rating')
+    list_display = ('name',)
     search_fields = ('name',)
 
 # No need to register CarFeature separately since it's inline with Car

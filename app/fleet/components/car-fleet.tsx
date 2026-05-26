@@ -26,6 +26,7 @@ import {
 import { useGetCarList } from "@/services/cars-api/queries";
 import { Car } from "@/services/cars-api/types";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function CarList() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -82,6 +83,7 @@ export default function CarList() {
         {/* Car Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {carsData.map((car: Car) => (
+            <Link href={`/fleet/${encodeURIComponent(car.plate_number)}`} key={car.id}>
             <Card
               key={car.id}
               className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer"
@@ -167,7 +169,9 @@ export default function CarList() {
                 </div>
               </CardContent>
             </Card>
+            </Link>
           ))}
+        
         </div>
       </div>
     </div>

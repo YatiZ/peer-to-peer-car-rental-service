@@ -1,34 +1,50 @@
-interface Owner {
-  id: number;
-  email: string;
-  username: string;
-  user_type: "owner" | "renter" | string; 
-  avatar: string; 
-  phone: string;
-  location: string;
-  rating: number;
-  joined_date: string; 
-  is_verified: boolean;
-}
+
   
   interface Feature {
     feature: string;
   }
   
-export  interface Car {
-    id: number;
-    name: string;
-    owner: Owner;
-    location: string;
-    distance: string;
-    price: string; // could also be number if you want numeric price
-    preview_image: string;
-    seats: number;
-    transmission: string;
-    fuel: string;
-    rating: string; // could also be number
-    review_count: number;
-    features: Feature[];
-    instant_book: boolean;
-  }
+  export interface CarImage {
+  id: number;
+  image_url: string;
+}
+
+
+export interface PickupLocation {
+  address: string;
+  latitude: number;
+  longitude: number;
+  is_default: boolean;
+}
+
+export interface Owner {
+  id: number;
+  email: string;
+  username: string;
+  user_type: string;
+  avatar: string;
+  phone: string;
+  location: string;
+  rating: number;
+  joined_date: string;
+  is_verified: boolean;
+}
+export interface Car {
+  id: number;
+  plate_number: string;
+  name: string;
+  owner: Owner;
+  location: string;
+  latitude: number;
+  longitude: number;
+  price: string;
+  preview_image: string;
+  seats: number;
+  transmission: string;
+  fuel: string;
+  instant_book: boolean;
+  images: CarImage[];
+  features: Feature[];
+  pickup: PickupLocation[];
+}
 

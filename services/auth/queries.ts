@@ -13,7 +13,6 @@ export const getMe = async(token?:string)=>{
         Accept: "application/json",
             }
         });
-        console.log("response get", response.data)
         return response.data;
     } catch (error:any) {
          if (error.response) {

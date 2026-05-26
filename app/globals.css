@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@source "../app";
+@source "../components";
+@source "../lib";
+@source "../providers";
+@source "../services";
+@source inline("bg-zinc-950 bg-zinc-900 bg-zinc-800 bg-zinc-700 text-zinc-950 max-w-screen-2xl min-h-64 min-h-96 max-h-screen rounded-2xl shadow-2xl drop-shadow-2xl backdrop-blur-xl blur-sm grid-cols-3 xl:grid-cols-3 xl:items-center xl:min-h-screen hover:bg-white/20 hover:bg-white/15");
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -118,4 +125,3 @@
     @apply bg-background text-foreground;
   }
 }
-
